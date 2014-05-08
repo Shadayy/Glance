@@ -245,41 +245,46 @@ public class Picture extends Activity {
 		}
 		
 	}
-	
-	
-	////////////////////////////////////CardScroll////////////////////////////////////
-    //This whole class was take from the official website, I didn't touch anything
+	//From https://developers.google.com/glass/develop/gdk/ui-widgets
 	private class CardScroll extends CardScrollAdapter {
 
-		
-		@Override
-        public int findIdPosition(Object id) 
-        {
-            return -1;
-        }
-
         @Override
-        public int findItemPosition(Object item) 
-        {
+        public int getPosition(Object item) {
             return mCards.indexOf(item);
         }
 
         @Override
-        public int getCount() 
-        {
+        public int getCount() {
             return mCards.size();
         }
 
         @Override
-        public Object getItem(int position) 
-        {
+        public Object getItem(int position) {
             return mCards.get(position);
         }
 
+        /**
+         * Returns the amount of view types.
+         */
         @Override
-        public View getView(int position, View convertView, ViewGroup parent) 
-        {
-            return mCards.get(position).toView();
+        public int getViewTypeCount() {
+            return Card.getViewTypeCount();
+        }
+
+        /**
+         * Returns the view type of this card so the system can figure out
+         * if it can be recycled.
+         */
+        @Override
+        public int getItemViewType(int position){
+            return mCards.get(position).getItemViewType();
+        }
+
+        @Override
+        public View getView(int position, View convertView,
+                ViewGroup parent) {
+            return  mCards.get(position).getView(convertView, parent);
         }
     }
+
 }
